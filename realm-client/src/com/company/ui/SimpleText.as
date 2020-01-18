@@ -1,11 +1,6 @@
 package com.company.ui
 {
 
-import com.company.ui.fonts.MyriadPro;
-import com.company.ui.fonts.MyriadProBold;
-import com.company.ui.fonts.MyriadProBoldCFF;
-import com.company.ui.fonts.MyriadProCFF;
-
 import flash.events.Event;
 import flash.text.Font;
 import flash.text.TextField;
@@ -18,10 +13,8 @@ import flash.text.TextLineMetrics;
    {
       private static const GUTTER:int = 16;
 
-      public static const _MyriadPro:Class = MyriadPro;
-      public static const _MyriadProBold:Class = MyriadProBold;
-      public static const _MyriadProCFF:Class = MyriadProCFF;
-      public static const _MyriadProBoldCFF:Class = MyriadProBoldCFF;
+      [Embed(source="BaseSimpleText_MyriadPro.swf", symbol="com.company.ui.BaseSimpleText_MyriadPro")]
+      public static const _MyriadPro:Class;
       public static var _Font:Font;
       public static var _FontRegistered:Boolean = false;
       
@@ -35,9 +28,6 @@ import flash.text.TextLineMetrics;
          if (!_FontRegistered)
          {
             Font.registerFont(_MyriadPro);
-            Font.registerFont(_MyriadProBold);
-            Font.registerFont(_MyriadProCFF);
-            Font.registerFont(_MyriadProBoldCFF);
             _Font = new _MyriadPro();
             _FontRegistered = true;
          }
