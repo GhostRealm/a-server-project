@@ -24,7 +24,7 @@ package kabam.rotmg.messaging.impl.incoming
          var num:int = data.readShort();
          for(i = 0; i < num; i++)
          {
-            this.accountIds_.push(data.readInt());
+            this.accountIds_.push(data.readUTF());
          }
       }
       
