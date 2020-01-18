@@ -3,9 +3,9 @@ package kabam.rotmg.ui.view
    import com.company.assembleegameclient.mapeditor.MapEditor;
    import com.company.assembleegameclient.screens.CreditsScreen;
    import com.company.assembleegameclient.screens.ServersScreen;
-   import flash.events.Event;
-   import flash.system.Capabilities;
+   import kabam.rotmg.account.core.Account;
    import kabam.rotmg.account.core.signals.OpenAccountInfoSignal;
+   import kabam.rotmg.account.web.view.WebLoginDialog;
    import kabam.rotmg.application.api.ApplicationSetup;
    import kabam.rotmg.core.model.PlayerModel;
    import kabam.rotmg.core.signals.SetScreenSignal;
@@ -41,6 +41,9 @@ package kabam.rotmg.ui.view
       
       [Inject]
       public var setup:ApplicationSetup;
+
+      [Inject]
+      public var account:Account;
       
       public function TitleMediator()
       {
@@ -78,7 +81,14 @@ package kabam.rotmg.ui.view
       
       private function handleIntentionToPlay() : void
       {
-         this.enterGame.dispatch();
+         if (!this.account.isRegistered())
+         {
+            this.openDialog.dispatch(new WebLoginDialog())
+         }
+         else
+         {
+            this.enterGame.dispatch();
+         }
       }
       
       private function showCreditsScreen() : void
