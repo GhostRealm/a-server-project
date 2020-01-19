@@ -613,29 +613,34 @@ public class GameObject extends BasicObject
          }
          return true;
       }
+
+      public function distToEnd():Number
+      {
+         var dx:Number = this.tickPosition_.x - x_;
+         var dy:Number = this.tickPosition_.y - y_;
+         return Math.sqrt((dx * dx) + (dy * dy));
+      }
+
+      //https://stackoverflow.com/questions/9567112/interpolate-as3
+      public static function interpolate(number:Number, number2:Number, f:Number):Number
+      {
+         var result:Number = f * number + (1 - f) * number2;
+         return result;
+      }
       
       override public function update(time:int, dt:int) : Boolean
       {
-         var tickDT:int = 0;
+         var tickDT:Number = NaN;
          var pX:Number = NaN;
          var pY:Number = NaN;
          var moving:Boolean = false;
-         if(!(this.moveVec_.x == 0 && this.moveVec_.y == 0))
+         if (distToEnd() > 0.05)
          {
-            if(this.myLastTickId_ < map_.gs_.gsc_.lastTickId_)
-            {
-               this.moveVec_.x = 0;
-               this.moveVec_.y = 0;
-               this.moveTo(this.tickPosition_.x,this.tickPosition_.y);
-            }
-            else
-            {
-               tickDT = time - this.lastTickUpdateTime_;
-               pX = this.posAtTick_.x + tickDT * this.moveVec_.x;
-               pY = this.posAtTick_.y + tickDT * this.moveVec_.y;
-               this.moveTo(pX,pY);
-               moving = true;
-            }
+            tickDT = dt * 0.0020666;
+            pX = interpolate(this.tickPosition_.x, this.x_, tickDT);
+            pY = interpolate(this.tickPosition_.y, this.y_, tickDT);
+            this.moveTo(pX, pY);
+            moving = true;
          }
          if(this.props_.whileMoving_ != null)
          {
@@ -667,10 +672,6 @@ public class GameObject extends BasicObject
       
       public function onTickPos(x:Number, y:Number, tickTime:int, tickId:int) : void
       {
-         if(this.myLastTickId_ < map_.gs_.gsc_.lastTickId_)
-         {
-            this.moveTo(this.tickPosition_.x,this.tickPosition_.y);
-         }
          this.lastTickUpdateTime_ = map_.gs_.lastUpdate_;
          this.tickPosition_.x = x;
          this.tickPosition_.y = y;

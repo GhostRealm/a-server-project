@@ -993,7 +993,7 @@ import kabam.rotmg.ui.view.NotEnoughGoldDialog;
          {
             if(needsAck)
             {
-               this.shootAck(-1);
+               //this.shootAck(-1);
             }
             return;
          }
@@ -1003,7 +1003,7 @@ import kabam.rotmg.ui.view.NotEnoughGoldDialog;
          this.gs_.map.addObj(proj,serverPlayerShoot.startingPos_.x_,serverPlayerShoot.startingPos_.y_);
          if(needsAck)
          {
-            this.shootAck(this.gs_.lastUpdate_);
+            //this.shootAck(this.gs_.lastUpdate_);
          }
       }
       
@@ -1032,7 +1032,7 @@ import kabam.rotmg.ui.view.NotEnoughGoldDialog;
          var owner:GameObject = this.gs_.map.goDict_[enemyShoot.ownerId_];
          if(owner == null || owner.dead_)
          {
-            this.shootAck(-1);
+            //this.shootAck(-1);
             return;
          }
          for(var i:int = 0; i < enemyShoot.numShots_; i++)
@@ -1041,9 +1041,9 @@ import kabam.rotmg.ui.view.NotEnoughGoldDialog;
             angle = enemyShoot.angle_ + enemyShoot.angleInc_ * i;
             proj.reset(owner.objectType_,enemyShoot.bulletType_,enemyShoot.ownerId_,(enemyShoot.bulletId_ + i) % 256,angle,this.gs_.lastUpdate_);
             proj.setDamage(enemyShoot.damage_);
-            this.gs_.map.addObj(proj,enemyShoot.startingPos_.x_,enemyShoot.startingPos_.y_);
+            this.gs_.map.addObj(proj,owner.x_,owner.y_);
          }
-         this.shootAck(this.gs_.lastUpdate_);
+         //this.shootAck(this.gs_.lastUpdate_);
          owner.setAttack(owner.objectType_,enemyShoot.angle_ + enemyShoot.angleInc_ * ((enemyShoot.numShots_ - 1) / 2));
       }
       
