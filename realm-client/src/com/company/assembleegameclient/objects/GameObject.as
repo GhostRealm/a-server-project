@@ -634,13 +634,19 @@ public class GameObject extends BasicObject
          var pX:Number = NaN;
          var pY:Number = NaN;
          var moving:Boolean = false;
-         if (distToEnd() > 0.05)
+         if (distToEnd() > 0.1)
          {
             tickDT = dt * 0.0020666;
             pX = interpolate(this.tickPosition_.x, this.x_, tickDT);
             pY = interpolate(this.tickPosition_.y, this.y_, tickDT);
             this.moveTo(pX, pY);
             moving = true;
+         }
+         else
+         {
+            moveVec_.x = 0;
+            moveVec_.y = 0;
+            moving = false;
          }
          if(this.props_.whileMoving_ != null)
          {
